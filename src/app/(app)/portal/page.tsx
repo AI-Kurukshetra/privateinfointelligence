@@ -53,6 +53,7 @@ export default async function InvestorPortalPage() {
                   <th>Document</th>
                   <th>Visibility</th>
                   <th>Created</th>
+                  <th>Download</th>
                 </tr>
               </thead>
               <tbody>
@@ -61,6 +62,16 @@ export default async function InvestorPortalPage() {
                     <td>{doc.title}</td>
                     <td>{doc.visibility}</td>
                     <td>{doc.created_at}</td>
+                    <td>
+                      <a
+                        href={`/api/documents/${doc.id}/download`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ui-btn ui-btn-secondary inline-flex text-[13px] px-2 py-1"
+                      >
+                        Download
+                      </a>
+                    </td>
                   </tr>
                 ))}
               </tbody>

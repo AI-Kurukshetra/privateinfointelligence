@@ -7,6 +7,7 @@ import {
   createWorkflowRun,
 } from "@/app/(app)/operations/actions";
 import { PageHeader, SectionCard } from "@/components/ui/blocks";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { requireActiveFund } from "@/lib/fund/active";
 import { createClient } from "@/lib/supabase/server";
 
@@ -64,18 +65,20 @@ export default async function OperationsPage() {
       />
 
       <div className="grid gap-4 xl:grid-cols-2">
-        <SectionCard title="Document Management" subtitle="Secure metadata and visibility">
-          <form action={createDocument} className="ui-form-grid two">
+        <SectionCard title="Document Management" subtitle="Upload files or add metadata; secure storage with visibility control">
+          <form action={createDocument} className="ui-form-grid two" encType="multipart/form-data">
             <input className="ui-input xl:col-span-2" name="title" placeholder="Document title" required />
-            <input className="ui-input" name="mime_type" defaultValue="application/pdf" />
+            <label className="xl:col-span-2 flex flex-col gap-1">
+              <span className="text-sm text-[color:var(--text-secondary)]">File (optional — upload PDF, images, etc.)</span>
+              <input className="ui-input max-w-md" type="file" name="file" accept=".pdf,.doc,.docx,.txt,.csv,image/*" />
+            </label>
+            <input className="ui-input" name="mime_type" defaultValue="application/pdf" placeholder="MIME type if no file" />
             <select className="ui-select" name="visibility" defaultValue="internal">
               <option value="internal">internal</option>
               <option value="investor_shared">investor_shared</option>
               <option value="restricted">restricted</option>
             </select>
-            <button className="ui-btn ui-btn-primary xl:col-span-2" type="submit">
-              Save Document
-            </button>
+            <SubmitButton loadingText="Uploading…" className="xl:col-span-2">Upload / Save Document</SubmitButton>
           </form>
         </SectionCard>
 
@@ -88,9 +91,7 @@ export default async function OperationsPage() {
             </select>
             <input className="ui-input" type="date" name="period_start" required />
             <input className="ui-input" type="date" name="period_end" required />
-            <button className="ui-btn ui-btn-primary xl:col-span-2" type="submit">
-              Queue Report
-            </button>
+            <SubmitButton loadingText="Queueing…" className="xl:col-span-2">Queue Report</SubmitButton>
           </form>
         </SectionCard>
 
@@ -106,9 +107,7 @@ export default async function OperationsPage() {
               <option value="overdue">overdue</option>
             </select>
             <textarea className="ui-textarea xl:col-span-2" name="notes" placeholder="Notes" />
-            <button className="ui-btn ui-btn-primary xl:col-span-2" type="submit">
-              Save Compliance Record
-            </button>
+            <SubmitButton loadingText="Saving…" className="xl:col-span-2">Save Compliance Record</SubmitButton>
           </form>
         </SectionCard>
 
@@ -116,9 +115,7 @@ export default async function OperationsPage() {
           <form action={createWorkflowRun} className="ui-form-grid">
             <input className="ui-input" name="name" placeholder="Workflow name" required />
             <input className="ui-input" name="source" placeholder="Trigger source" />
-            <button className="ui-btn ui-btn-primary" type="submit">
-              Queue Workflow
-            </button>
+            <SubmitButton loadingText="Queueing…">Queue Workflow</SubmitButton>
           </form>
         </SectionCard>
       </div>
@@ -138,9 +135,7 @@ export default async function OperationsPage() {
             </select>
             <input className="ui-input xl:col-span-2" name="title" placeholder="Message title" required />
             <textarea className="ui-textarea xl:col-span-2" name="body" placeholder="Message body" required />
-            <button className="ui-btn ui-btn-primary xl:col-span-2" type="submit">
-              Send Communication
-            </button>
+            <SubmitButton loadingText="Sending…" className="xl:col-span-2">Send Communication</SubmitButton>
           </form>
         </SectionCard>
 
@@ -161,21 +156,20 @@ export default async function OperationsPage() {
               defaultValue={new Date().getFullYear()}
               required
             />
-            <button className="ui-btn ui-btn-primary" type="submit">
-              Create Tax Report
-            </button>
+            <SubmitButton loadingText="Creating…">Create Tax Report</SubmitButton>
           </form>
         </SectionCard>
       </div>
 
       <div className="grid gap-4 xl:grid-cols-3">
-        <SectionCard title="Documents" subtitle="Latest updates">
+        <SectionCard title="Documents" subtitle="Latest updates — download via secure link">
           <div className="ui-table-wrap">
             <table className="ui-table">
               <thead>
                 <tr>
                   <th>Title</th>
                   <th>Visibility</th>
+                  <th>Download</th>
                 </tr>
               </thead>
               <tbody>
@@ -183,6 +177,16 @@ export default async function OperationsPage() {
                   <tr key={document.id}>
                     <td>{document.title}</td>
                     <td>{document.visibility}</td>
+                    <td>
+                      <a
+                        href={`/api/documents/${document.id}/download`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ui-btn ui-btn-secondary inline-flex text-[13px] px-2 py-1"
+                      >
+                        Download
+                      </a>
+                    </td>
                   </tr>
                 ))}
               </tbody>

@@ -9,7 +9,19 @@ function assertPresent(name: string, value: string | undefined): string {
   return value;
 }
 
+/**
+ * Public env for browser and Edge (middleware). Returns empty strings if vars are missing
+ * so middleware does not throw on Vercel when env is not yet configured.
+ */
 export function getPublicEnv() {
+  return {
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
+    supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
+  };
+}
+
+/** Use in server-only code when Supabase is required; throws if env is missing. */
+export function getPublicEnvStrict() {
   return {
     supabaseUrl: assertPresent(requiredPublicVars[0], process.env.NEXT_PUBLIC_SUPABASE_URL),
     supabaseAnonKey: assertPresent(requiredPublicVars[1], process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),

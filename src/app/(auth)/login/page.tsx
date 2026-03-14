@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { signIn } from "@/app/(auth)/login/actions";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 type LoginPageProps = {
   searchParams: Promise<{
@@ -62,9 +63,9 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                 <input className="ui-input" name="password" type="password" required />
               </label>
 
-              <button type="submit" className="ui-btn ui-btn-primary w-full">
+              <SubmitButton loadingText="Signing in…" className="w-full">
                 Continue to Dashboard
-              </button>
+              </SubmitButton>
             </form>
 
             <p className="mt-6 text-sm text-[color:var(--text-secondary)]">

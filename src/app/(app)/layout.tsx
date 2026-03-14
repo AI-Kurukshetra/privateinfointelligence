@@ -1,6 +1,7 @@
 import { setActiveFund } from "@/app/(app)/actions";
 import { signOut } from "@/app/(auth)/login/actions";
 import { DesktopSidebar, MobileSidebar } from "@/components/app/sidebar-nav";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { requireSession } from "@/lib/auth/session";
 import { getCurrentUserFundContext } from "@/lib/fund/context";
@@ -61,13 +62,13 @@ export default async function AppLayout({
               )}
 
               <form action={signOut}>
-                <button
-                  type="submit"
-                  className="ui-btn ui-btn-secondary inline-flex items-center gap-2 px-3"
-                  suppressHydrationWarning
+                <SubmitButton
+                  variant="secondary"
+                  loadingText="Signing out…"
+                  className="px-3 [&>span]:text-[13px]"
                 >
                   <span className="text-[13px]">Sign Out</span>
-                </button>
+                </SubmitButton>
               </form>
               <ThemeToggle />
             </div>

@@ -5,23 +5,76 @@ import { revalidatePath } from "next/cache";
 import { requireActiveFund } from "@/lib/fund/active";
 import { createClient } from "@/lib/supabase/server";
 
+const DOCUMENT_BUCKET = "fund-documents";
+
+function sanitizeFileName(name: string): string {
+  return name.replace(/[^a-zA-Z0-9._-]/g, "-").replace(/-+/g, "-").slice(0, 100) || "document";
+}
+
 export async function createDocument(formData: FormData) {
   const { fundId, user } = await requireActiveFund();
   const supabase = await createClient();
   const title = String(formData.get("title") ?? "").trim();
   const visibility = String(formData.get("visibility") ?? "internal");
+  const file = formData.get("file");
+
+  let storage_path: string;
+  let mime_type: string;
+
+  if (file instanceof File && file.size > 0) {
+    const ext = file.name.split(".").pop()?.toLowerCase() || "bin";
+    const baseName = sanitizeFileName(file.name.slice(0, -(ext.length + 1)));
+    storage_path = `fund/${fundId}/${Date.now()}-${baseName}.${ext}`;
+    mime_type = file.type || "application/octet-stream";
+
+    const { error: uploadError } = await supabase.storage
+      .from(DOCUMENT_BUCKET)
+      .upload(storage_path, file, { contentType: mime_type, upsert: false });
+
+    if (uploadError) {
+      console.error("Document upload failed:", uploadError);
+      throw new Error("Upload failed: " + uploadError.message);
+    }
+  } else {
+    storage_path = `fund/${fundId}/${Date.now()}-${title.toLowerCase().replace(/\s+/g, "-")}.pdf`;
+    mime_type = String(formData.get("mime_type") ?? "application/pdf");
+  }
 
   await supabase.from("documents").insert({
     fund_id: fundId,
     title,
-    storage_path: `fund/${fundId}/${Date.now()}-${title.toLowerCase().replace(/\s+/g, "-")}.pdf`,
-    mime_type: String(formData.get("mime_type") ?? "application/pdf"),
+    storage_path,
+    mime_type,
     visibility,
     created_by: user.id,
   });
 
   revalidatePath("/operations");
   revalidatePath("/portal");
+}
+
+export async function getDocumentDownloadUrl(documentId: string): Promise<{ url: string } | { error: string }> {
+  const { fundId } = await requireActiveFund();
+  const supabase = await createClient();
+
+  const { data: doc, error: fetchError } = await supabase
+    .from("documents")
+    .select("id, fund_id, storage_path")
+    .eq("id", documentId)
+    .single();
+
+  if (fetchError || !doc || doc.fund_id !== fundId) {
+    return { error: "Document not found or access denied." };
+  }
+
+  const { data: signed, error: signError } = await supabase.storage
+    .from(DOCUMENT_BUCKET)
+    .createSignedUrl(doc.storage_path, 60);
+
+  if (signError || !signed?.signedUrl) {
+    return { error: "Could not generate download link." };
+  }
+  return { url: signed.signedUrl };
 }
 
 export async function createReport(formData: FormData) {

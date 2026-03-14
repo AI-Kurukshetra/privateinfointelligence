@@ -5,6 +5,7 @@ import {
   createValuation,
 } from "@/app/(app)/portfolio/actions";
 import { PageHeader, SectionCard } from "@/components/ui/blocks";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { requireActiveFund } from "@/lib/fund/active";
 import { createClient } from "@/lib/supabase/server";
 
@@ -55,9 +56,7 @@ export default async function PortfolioPage() {
               <option value="exited">exited</option>
             </select>
             <input className="ui-input" name="country" placeholder="Country code (US)" />
-            <button className="ui-btn ui-btn-primary xl:col-span-2" type="submit">
-              Save Company
-            </button>
+            <SubmitButton loadingText="Saving…" className="xl:col-span-2">Save Company</SubmitButton>
           </form>
         </SectionCard>
 
@@ -78,9 +77,7 @@ export default async function PortfolioPage() {
             <input className="ui-input" type="number" step="0.01" name="probability_pct" placeholder="Probability %" />
             <input className="ui-input" type="date" name="expected_close_date" />
             <textarea className="ui-textarea xl:col-span-2" name="notes" placeholder="Deal notes" />
-            <button className="ui-btn ui-btn-primary xl:col-span-2" type="submit">
-              Save Deal
-            </button>
+            <SubmitButton loadingText="Saving…" className="xl:col-span-2">Save Deal</SubmitButton>
           </form>
         </SectionCard>
 
@@ -98,9 +95,7 @@ export default async function PortfolioPage() {
             <input className="ui-input" type="number" step="0.01" name="ownership_percentage" placeholder="Ownership %" required />
             <input className="ui-input" type="date" name="investment_date" required />
             <input className="ui-input" name="currency_code" defaultValue="USD" />
-            <button className="ui-btn ui-btn-primary xl:col-span-2" type="submit">
-              Save Investment
-            </button>
+            <SubmitButton loadingText="Saving…" className="xl:col-span-2">Save Investment</SubmitButton>
           </form>
         </SectionCard>
 
@@ -123,9 +118,7 @@ export default async function PortfolioPage() {
               <option value="approved">approved</option>
               <option value="published">published</option>
             </select>
-            <button className="ui-btn ui-btn-primary xl:col-span-2" type="submit">
-              Save Valuation
-            </button>
+            <SubmitButton loadingText="Saving…" className="xl:col-span-2">Save Valuation</SubmitButton>
           </form>
         </SectionCard>
       </div>
