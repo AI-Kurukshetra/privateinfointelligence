@@ -20,7 +20,7 @@ export default async function AppLayout({
 
       <div className="min-h-screen flex-1 lg:min-h-[calc(100vh-24px)]">
         <header className="ui-header">
-          <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-3 px-6 py-4">
+          <div className="mx-auto flex w-full max-w-[1400px] flex-wrap items-center justify-between gap-3 px-4 py-4">
             <div className="flex items-center gap-3">
               <MobileSidebar />
               <div>
