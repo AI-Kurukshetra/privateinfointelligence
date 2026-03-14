@@ -77,74 +77,90 @@ export default async function CapitalPage() {
 
       <div className="grid gap-4 xl:grid-cols-2">
         <SectionCard title="Add Fund Investor" subtitle="Commitment and LP records">
-          <form action={createInvestor} className="ui-form-grid two">
-            <input className="ui-input" name="name" placeholder="Investor name" required />
-            <input className="ui-input" type="email" name="email" placeholder="Investor email" required />
-            <input
-              className="ui-input"
-              type="number"
-              step="0.01"
-              name="commitment_amount"
-              placeholder="Commitment amount"
-              required
-            />
-            <input className="ui-input" name="currency_code" defaultValue="USD" />
-            <SubmitButton loadingText="Saving…" className="xl:col-span-2">Save Investor</SubmitButton>
+          <form action={createInvestor} className="flex flex-1 flex-col gap-4">
+            <div className="ui-form-grid two">
+              <input className="ui-input" name="name" placeholder="Investor name" required />
+              <input className="ui-input" type="email" name="email" placeholder="Investor email" required />
+              <input
+                className="ui-input"
+                type="number"
+                step="0.01"
+                name="commitment_amount"
+                placeholder="Commitment amount"
+                required
+              />
+              <input className="ui-input" name="currency_code" defaultValue="USD" />
+            </div>
+            <div className="mt-auto pt-2">
+              <SubmitButton loadingText="Saving…" className="w-full">Save Investor</SubmitButton>
+            </div>
           </form>
         </SectionCard>
 
         <SectionCard title="Create Capital Call" subtitle="Issue call notices and track status">
-          <form action={createCapitalCall} className="ui-form-grid two">
-            <input className="ui-input xl:col-span-2" name="title" placeholder="Call title" required />
-            <input className="ui-input" type="date" name="due_date" required />
-            <input className="ui-input" type="number" step="0.01" name="total_amount" placeholder="Total amount" required />
-            <input className="ui-input" name="currency_code" defaultValue="USD" />
-            <select className="ui-select" name="status" defaultValue="draft">
-              <option value="draft">draft</option>
-              <option value="issued">issued</option>
-              <option value="partially_paid">partially_paid</option>
-              <option value="paid">paid</option>
-            </select>
-            <SubmitButton loadingText="Saving…" className="xl:col-span-2">Save Capital Call</SubmitButton>
+          <form action={createCapitalCall} className="flex flex-1 flex-col gap-4">
+            <div className="ui-form-grid two">
+              <input className="ui-input xl:col-span-2" name="title" placeholder="Call title" required />
+              <input className="ui-input" type="date" name="due_date" required />
+              <input className="ui-input" type="number" step="0.01" name="total_amount" placeholder="Total amount" required />
+              <input className="ui-input" name="currency_code" defaultValue="USD" />
+              <select className="ui-select" name="status" defaultValue="draft">
+                <option value="draft">draft</option>
+                <option value="issued">issued</option>
+                <option value="partially_paid">partially_paid</option>
+                <option value="paid">paid</option>
+              </select>
+            </div>
+            <div className="mt-auto pt-2">
+              <SubmitButton loadingText="Saving…" className="w-full">Save Capital Call</SubmitButton>
+            </div>
           </form>
         </SectionCard>
 
         <SectionCard title="Create Distribution" subtitle="LP payouts with optional pro-rata waterfall by commitment">
-          <form action={createDistribution} className="ui-form-grid two">
-            <input className="ui-input xl:col-span-2" name="title" placeholder="Distribution title" required />
-            <input className="ui-input" type="date" name="payment_date" required />
-            <input className="ui-input" type="number" step="0.01" name="total_amount" placeholder="Total amount" required />
-            <input className="ui-input" name="currency_code" defaultValue="USD" />
-            <select className="ui-select" name="status" defaultValue="draft">
-              <option value="draft">draft</option>
-              <option value="approved">approved</option>
-              <option value="paid">paid</option>
-              <option value="cancelled">cancelled</option>
-            </select>
-            <label className="flex items-center gap-2 xl:col-span-2">
-              <input type="checkbox" name="auto_allocate" value="true" className="rounded" />
-              <span className="text-sm text-[color:var(--text-secondary)]">Auto-allocate pro-rata by commitment (waterfall)</span>
-            </label>
-            <SubmitButton loadingText="Saving…" className="xl:col-span-2">Save Distribution</SubmitButton>
+          <form action={createDistribution} className="flex flex-1 flex-col gap-4">
+            <div className="ui-form-grid two">
+              <input className="ui-input xl:col-span-2" name="title" placeholder="Distribution title" required />
+              <input className="ui-input" type="date" name="payment_date" required />
+              <input className="ui-input" type="number" step="0.01" name="total_amount" placeholder="Total amount" required />
+              <input className="ui-input" name="currency_code" defaultValue="USD" />
+              <select className="ui-select" name="status" defaultValue="draft">
+                <option value="draft">draft</option>
+                <option value="approved">approved</option>
+                <option value="paid">paid</option>
+                <option value="cancelled">cancelled</option>
+              </select>
+              <label className="flex items-center gap-2 xl:col-span-2">
+                <input type="checkbox" name="auto_allocate" value="true" className="rounded" />
+                <span className="text-sm text-[color:var(--text-secondary)]">Auto-allocate pro-rata by commitment (waterfall)</span>
+              </label>
+            </div>
+            <div className="mt-auto pt-2">
+              <SubmitButton loadingText="Saving…" className="w-full">Save Distribution</SubmitButton>
+            </div>
           </form>
         </SectionCard>
 
         <SectionCard title="Add Cashflow Entry" subtitle="Input stream for performance calculations">
-          <form action={createCashflow} className="ui-form-grid two">
-            <select className="ui-select" name="flow_type" defaultValue="capital_call">
-              <option value="capital_call">capital_call</option>
-              <option value="distribution">distribution</option>
-              <option value="investment">investment</option>
-              <option value="expense">expense</option>
-              <option value="income">income</option>
-              <option value="fee">fee</option>
-            </select>
-            <input className="ui-input" type="date" name="occurred_on" required />
-            <input className="ui-input" type="number" step="0.01" name="amount" placeholder="Amount" required />
-            <input className="ui-input" name="currency_code" defaultValue="USD" />
-            <input className="ui-input" name="reference_type" placeholder="Reference type" />
-            <input className="ui-input" name="description" placeholder="Description" />
-            <SubmitButton loadingText="Saving…" className="xl:col-span-2">Save Cashflow</SubmitButton>
+          <form action={createCashflow} className="flex flex-1 flex-col gap-4">
+            <div className="ui-form-grid two">
+              <select className="ui-select" name="flow_type" defaultValue="capital_call">
+                <option value="capital_call">capital_call</option>
+                <option value="distribution">distribution</option>
+                <option value="investment">investment</option>
+                <option value="expense">expense</option>
+                <option value="income">income</option>
+                <option value="fee">fee</option>
+              </select>
+              <input className="ui-input" type="date" name="occurred_on" required />
+              <input className="ui-input" type="number" step="0.01" name="amount" placeholder="Amount" required />
+              <input className="ui-input" name="currency_code" defaultValue="USD" />
+              <input className="ui-input" name="reference_type" placeholder="Reference type" />
+              <input className="ui-input" name="description" placeholder="Description" />
+            </div>
+            <div className="mt-auto pt-2">
+              <SubmitButton loadingText="Saving…" className="w-full">Save Cashflow</SubmitButton>
+            </div>
           </form>
         </SectionCard>
       </div>

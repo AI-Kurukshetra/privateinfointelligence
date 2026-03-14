@@ -66,97 +66,121 @@ export default async function OperationsPage() {
 
       <div className="grid gap-4 xl:grid-cols-2">
         <SectionCard title="Document Management" subtitle="Upload files or add metadata; secure storage with visibility control">
-          <form action={createDocument} className="ui-form-grid two" encType="multipart/form-data">
-            <input className="ui-input xl:col-span-2" name="title" placeholder="Document title" required />
-            <label className="xl:col-span-2 flex flex-col gap-1">
-              <span className="text-sm text-[color:var(--text-secondary)]">File (optional — upload PDF, images, etc.)</span>
-              <input className="ui-input max-w-md" type="file" name="file" accept=".pdf,.doc,.docx,.txt,.csv,image/*" />
-            </label>
-            <input className="ui-input" name="mime_type" defaultValue="application/pdf" placeholder="MIME type if no file" />
-            <select className="ui-select" name="visibility" defaultValue="internal">
-              <option value="internal">internal</option>
-              <option value="investor_shared">investor_shared</option>
-              <option value="restricted">restricted</option>
-            </select>
-            <SubmitButton loadingText="Uploading…" className="xl:col-span-2">Upload / Save Document</SubmitButton>
+          <form action={createDocument} className="flex flex-1 flex-col gap-4" encType="multipart/form-data">
+            <div className="ui-form-grid two">
+              <input className="ui-input xl:col-span-2" name="title" placeholder="Document title" required />
+              <label className="xl:col-span-2 flex flex-col gap-1">
+                <span className="text-sm text-[color:var(--text-secondary)]">File (optional — upload PDF, images, etc.)</span>
+                <input className="ui-input max-w-md" type="file" name="file" accept=".pdf,.doc,.docx,.txt,.csv,image/*" />
+              </label>
+              <input className="ui-input" name="mime_type" defaultValue="application/pdf" placeholder="MIME type if no file" />
+              <select className="ui-select" name="visibility" defaultValue="internal">
+                <option value="internal">internal</option>
+                <option value="investor_shared">investor_shared</option>
+                <option value="restricted">restricted</option>
+              </select>
+            </div>
+            <div className="mt-auto pt-2">
+              <SubmitButton loadingText="Uploading…" className="w-full">Upload / Save Document</SubmitButton>
+            </div>
           </form>
         </SectionCard>
 
         <SectionCard title="Financial Reporting" subtitle="Generate LP report runs">
-          <form action={createReport} className="ui-form-grid two">
-            <select className="ui-select xl:col-span-2" name="report_type" defaultValue="quarterly_summary">
-              <option value="quarterly_summary">quarterly_summary</option>
-              <option value="capital_activity">capital_activity</option>
-              <option value="commitment_vs_contribution">commitment_vs_contribution</option>
-            </select>
-            <input className="ui-input" type="date" name="period_start" required />
-            <input className="ui-input" type="date" name="period_end" required />
-            <SubmitButton loadingText="Queueing…" className="xl:col-span-2">Queue Report</SubmitButton>
+          <form action={createReport} className="flex flex-1 flex-col gap-4">
+            <div className="ui-form-grid two">
+              <select className="ui-select xl:col-span-2" name="report_type" defaultValue="quarterly_summary">
+                <option value="quarterly_summary">quarterly_summary</option>
+                <option value="capital_activity">capital_activity</option>
+                <option value="commitment_vs_contribution">commitment_vs_contribution</option>
+              </select>
+              <input className="ui-input" type="date" name="period_start" required />
+              <input className="ui-input" type="date" name="period_end" required />
+            </div>
+            <div className="mt-auto pt-2">
+              <SubmitButton loadingText="Queueing…" className="w-full">Queue Report</SubmitButton>
+            </div>
           </form>
         </SectionCard>
 
         <SectionCard title="Compliance Monitoring" subtitle="Regulatory and operational obligations">
-          <form action={createComplianceRecord} className="ui-form-grid two">
-            <input className="ui-input xl:col-span-2" name="title" placeholder="Requirement title" required />
-            <input className="ui-input" name="requirement_type" placeholder="Requirement type" required />
-            <input className="ui-input" type="date" name="due_date" required />
-            <select className="ui-select" name="status" defaultValue="open">
-              <option value="open">open</option>
-              <option value="in_review">in_review</option>
-              <option value="resolved">resolved</option>
-              <option value="overdue">overdue</option>
-            </select>
-            <textarea className="ui-textarea xl:col-span-2" name="notes" placeholder="Notes" />
-            <SubmitButton loadingText="Saving…" className="xl:col-span-2">Save Compliance Record</SubmitButton>
+          <form action={createComplianceRecord} className="flex flex-1 flex-col gap-4">
+            <div className="ui-form-grid two">
+              <input className="ui-input xl:col-span-2" name="title" placeholder="Requirement title" required />
+              <input className="ui-input" name="requirement_type" placeholder="Requirement type" required />
+              <input className="ui-input" type="date" name="due_date" required />
+              <select className="ui-select" name="status" defaultValue="open">
+                <option value="open">open</option>
+                <option value="in_review">in_review</option>
+                <option value="resolved">resolved</option>
+                <option value="overdue">overdue</option>
+              </select>
+              <textarea className="ui-textarea xl:col-span-2" name="notes" placeholder="Notes" />
+            </div>
+            <div className="mt-auto pt-2">
+              <SubmitButton loadingText="Saving…" className="w-full">Save Compliance Record</SubmitButton>
+            </div>
           </form>
         </SectionCard>
 
         <SectionCard title="Workflow Automation" subtitle="Track recurring process runs">
-          <form action={createWorkflowRun} className="ui-form-grid">
-            <input className="ui-input" name="name" placeholder="Workflow name" required />
-            <input className="ui-input" name="source" placeholder="Trigger source" />
-            <SubmitButton loadingText="Queueing…">Queue Workflow</SubmitButton>
+          <form action={createWorkflowRun} className="flex flex-1 flex-col gap-4">
+            <div className="ui-form-grid">
+              <input className="ui-input" name="name" placeholder="Workflow name" required />
+              <input className="ui-input" name="source" placeholder="Trigger source" />
+            </div>
+            <div className="mt-auto pt-2">
+              <SubmitButton loadingText="Queueing…" className="w-full">Queue Workflow</SubmitButton>
+            </div>
           </form>
         </SectionCard>
       </div>
 
       <div className="grid gap-4 xl:grid-cols-2">
         <SectionCard title="Communications" subtitle="Internal and investor-facing messages">
-          <form action={createCommunication} className="ui-form-grid two">
-            <select className="ui-select" name="channel" defaultValue="note">
-              <option value="note">note</option>
-              <option value="in_app">in_app</option>
-              <option value="email">email</option>
-            </select>
-            <select className="ui-select" name="audience_type" defaultValue="internal">
-              <option value="internal">internal</option>
-              <option value="investor">investor</option>
-              <option value="all">all</option>
-            </select>
-            <input className="ui-input xl:col-span-2" name="title" placeholder="Message title" required />
-            <textarea className="ui-textarea xl:col-span-2" name="body" placeholder="Message body" required />
-            <SubmitButton loadingText="Sending…" className="xl:col-span-2">Send Communication</SubmitButton>
+          <form action={createCommunication} className="flex flex-1 flex-col gap-4">
+            <div className="ui-form-grid two">
+              <select className="ui-select" name="channel" defaultValue="note">
+                <option value="note">note</option>
+                <option value="in_app">in_app</option>
+                <option value="email">email</option>
+              </select>
+              <select className="ui-select" name="audience_type" defaultValue="internal">
+                <option value="internal">internal</option>
+                <option value="investor">investor</option>
+                <option value="all">all</option>
+              </select>
+              <input className="ui-input xl:col-span-2" name="title" placeholder="Message title" required />
+              <textarea className="ui-textarea xl:col-span-2" name="body" placeholder="Message body" required />
+            </div>
+            <div className="mt-auto pt-2">
+              <SubmitButton loadingText="Sending…" className="w-full">Send Communication</SubmitButton>
+            </div>
           </form>
         </SectionCard>
 
         <SectionCard title="Tax Reporting" subtitle="K-1 prep records per investor">
-          <form action={createTaxReport} className="ui-form-grid two">
-            <select className="ui-select xl:col-span-2" name="fund_investor_id" required>
-              <option value="">Select investor</option>
-              {(fundInvestors ?? []).map((item) => (
-                <option key={item.id} value={item.id}>
-                  {investorNameById.get(item.investor_id) ?? item.id}
-                </option>
-              ))}
-            </select>
-            <input
-              className="ui-input"
-              type="number"
-              name="tax_year"
-              defaultValue={new Date().getFullYear()}
-              required
-            />
-            <SubmitButton loadingText="Creating…">Create Tax Report</SubmitButton>
+          <form action={createTaxReport} className="flex flex-1 flex-col gap-4">
+            <div className="ui-form-grid two">
+              <select className="ui-select xl:col-span-2" name="fund_investor_id" required>
+                <option value="">Select investor</option>
+                {(fundInvestors ?? []).map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {investorNameById.get(item.investor_id) ?? item.id}
+                  </option>
+                ))}
+              </select>
+              <input
+                className="ui-input"
+                type="number"
+                name="tax_year"
+                defaultValue={new Date().getFullYear()}
+                required
+              />
+            </div>
+            <div className="mt-auto pt-2">
+              <SubmitButton loadingText="Creating…" className="w-full">Create Tax Report</SubmitButton>
+            </div>
           </form>
         </SectionCard>
       </div>

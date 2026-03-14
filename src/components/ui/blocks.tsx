@@ -26,12 +26,14 @@ type SectionCardProps = {
 
 export function SectionCard({ title, subtitle, children }: SectionCardProps) {
   return (
-    <section className="ui-card ui-section-card space-y-4">
-      <div>
+    <section className="ui-card ui-section-card flex h-full min-h-0 flex-col">
+      <div className="shrink-0">
         <h2 className="ui-section-title">{title}</h2>
         {subtitle ? <p className="ui-section-subtitle">{subtitle}</p> : null}
       </div>
-      {children}
+      <div className="mt-4 flex min-h-0 flex-1 flex-col">
+        {children}
+      </div>
     </section>
   );
 }
