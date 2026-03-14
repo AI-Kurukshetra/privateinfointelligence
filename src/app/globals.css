@@ -187,9 +187,9 @@ textarea {
 }
 
 .ui-main {
-  max-width: 1240px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 26px 24px 30px;
+  padding: 26px 16px 30px;
 }
 
 .ui-page {
