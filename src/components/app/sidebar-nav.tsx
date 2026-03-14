@@ -62,7 +62,7 @@ export function DesktopSidebar() {
         <p className="text-xs font-medium tracking-[0.14em] text-[color:var(--text-secondary)] uppercase">
           Fund Intelligence
         </p>
-        <p className="mt-1 text-base font-semibold text-[color:var(--text-primary)]">Maybern Suite</p>
+        <p className="ui-gradient-text mt-1 text-base font-semibold">Maybern Suite</p>
       </div>
       <div className="p-4">
         <NavLinks />

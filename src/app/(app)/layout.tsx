@@ -14,45 +14,59 @@ export default async function AppLayout({
   const fundContext = await getCurrentUserFundContext(user.id);
 
   return (
-    <div className="ui-shell lg:flex">
+    <div className="ui-shell lg:flex lg:items-start lg:gap-4 lg:px-4 lg:py-3">
       <DesktopSidebar />
 
-      <div className="min-h-screen flex-1">
+      <div className="min-h-screen flex-1 lg:min-h-[calc(100vh-24px)]">
         <header className="ui-header">
           <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-3 px-6 py-4">
             <div className="flex items-center gap-3">
               <MobileSidebar />
               <div>
-                <p className="text-[12px] text-[color:var(--text-secondary)]">Signed in as</p>
-                <p className="text-sm font-medium text-[color:var(--text-primary)]">{user.email}</p>
+                <p className="text-[12px] text-[color:var(--text-secondary)]">
+                  Signed in as
+                </p>
+                <p className="text-sm font-medium text-[color:var(--text-primary)]">
+                  {user.email}
+                </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
               {fundContext.memberships.length > 0 ? (
-                <form action={setActiveFund} className="flex items-center gap-2">
+                <form
+                  action={setActiveFund}
+                  className="flex items-center gap-2"
+                >
                   <select
                     name="fund_id"
                     defaultValue={fundContext.active?.fund_id}
                     className="ui-select min-w-48"
                   >
                     {fundContext.memberships.map((membership) => (
-                      <option key={membership.fund_id} value={membership.fund_id}>
-                        {(membership.funds?.name ?? "Fund")} ({membership.role})
+                      <option
+                        key={membership.fund_id}
+                        value={membership.fund_id}
+                      >
+                        {membership.funds?.name ?? "Fund"} ({membership.role})
                       </option>
                     ))}
                   </select>
-                  <button className="ui-btn ui-btn-secondary" type="submit">
+                  {/* <button className="ui-btn ui-btn-secondary" type="submit">
                     Switch
-                  </button>
+                  </button> */}
                 </form>
               ) : (
                 <span className="ui-pill">No fund role mapped</span>
               )}
 
               <form action={signOut}>
-                <button className="ui-btn ui-btn-ghost" type="submit">
-                  Sign out
+                <button
+                  type="submit"
+                  className="ui-btn ui-btn-secondary inline-flex items-center gap-2 px-3"
+                  suppressHydrationWarning
+                >
+                  <span className="text-[13px]">Sign Out</span>
                 </button>
               </form>
               <ThemeToggle />
